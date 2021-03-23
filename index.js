@@ -2,12 +2,19 @@
   // ...
 //};
 
+
 const fs = require('fs');
 const path = require('path');
 const marked = require("marked");
+const chalk = require('chalk');
+
+let file = process.argv[2];
+
+
+if (path.parse(file).ext === '.md'){
 
 let links = [];
-fs.readFile('./README.md', (err, data) => {
+fs.readFile(file, (err, data) => {
 if (err) {console.log(err)}
 document = data.toString();
 
@@ -28,15 +35,13 @@ document = data.toString();
 marked(document);
 
 links.forEach((link) => {
-  console.log(link.href, link.text)
+  console.log(chalk.blue(link.href), chalk.gray(link.text))
 })
 });
+} else {
+  console.log(chalk.bold.red('Por favor ingresa la ruta a un archivo .md'))
+}
 
-
-
-  const thisPath = path.parse('./README.md');
-
-  console.log(thisPath.ext)
 
 
 
