@@ -8,40 +8,53 @@ const path = require('path');
 const marked = require("marked");
 const chalk = require('chalk');
 
-let file = process.argv[2];
+let inputPath = process.argv[2];
 
-
-if (path.parse(file).ext === '.md'){
-
-let links = [];
-fs.readFile(file, (err, data) => {
-if (err) {console.log(err)}
-document = data.toString();
-
-/*const walkTokens = (token) => {
-  if (token.type === 'link'){
-    console.log(token)
-  } else {''}
-}
- marked.use({walkTokens})*/
-
- const renderer = new marked.Renderer();
- renderer.link = (href, title, text) => {
-   links.push({ href, title, text })
- }
-
- marked.use({ renderer });
-
-marked(document);
-
-links.forEach((link) => {
-  console.log(chalk.blue(link.href), chalk.gray(link.text))
+function getFiles(filepath){
+  if (path.parse(inputPath).ext === '.md'){
+    showLinks(filepath);
+  } else {
+  let input = fs.readdirSync(filepath);
+  input.forEach((file) => {
+  let thisFilePath = filepath + '\\' + file;
+  if(path.parse(thisFilePath).ext === '.md'){
+    showLinks(thisFilePath)
+  } else{
+  let thisFilePath = inputPath + '\\' + file;
+  getFiles(thisFilePath)
+  }
 })
-});
-} else {
-  console.log(chalk.bold.red('Por favor ingresa la ruta a un archivo .md'))
+}}
+
+getFiles(inputPath);  
+
+
+function showLinks(selectedFiles){
+
+  let links = [];
+  fs.readFile(selectedFiles, (err, data) => {
+  if (err) {console.log(err)}
+  document = data.toString();
+  
+  /*const walkTokens = (token) => {
+    if (token.type === 'link'){
+      console.log(token)
+    } else {''}
+  }
+   marked.use({walkTokens})*/
+  
+   const renderer = new marked.Renderer();
+   renderer.link = (href, title, text) => {
+     links.push({ href, title, text })
+   }
+  
+   marked.use({ renderer });
+  
+  marked(document);
+  
+  links.forEach((link) => {
+    console.log(chalk.magenta(selectedFiles), chalk.blue(link.href), chalk.gray(link.text))
+  })
+  });
+
 }
-
-
-
-
