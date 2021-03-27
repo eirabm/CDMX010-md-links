@@ -5,56 +5,44 @@
 
 const fs = require('fs');
 const path = require('path');
-const marked = require("marked");
 const chalk = require('chalk');
+const https = require('https');
+const showLinks = require('./helpers/get_links.js');
+const validate = require('./helpers/validate.js');
 
 let inputPath = process.argv[2];
 
 function getFiles(filepath){
-  if (path.parse(inputPath).ext === '.md'){
-    showLinks(filepath);
-  } else {
-  let input = fs.readdirSync(filepath);
-  input.forEach((file) => {
-  let thisFilePath = filepath + '\\' + file;
-  if(path.parse(thisFilePath).ext === '.md'){
-    showLinks(thisFilePath)
-  } else{
-  let thisFilePath = inputPath + '\\' + file;
-  getFiles(thisFilePath)
+  if (path.parse(filepath).ext === '.md'){
+    showLinks(filepath).then((links)=> links.forEach((link) => {
+      if (process.argv[3] === '--validate'){
+      validate(link).then((validated)=> console.log(filepath, validated.href, validated.statusText == 'OK' ? chalk.bold.green(validated.statusText) : chalk.bold.red(validated.statusText), validated.status, validated.text))
+      } else{
+      console.log(filepath, link.href, link.text)
+          }
+    }))
+  } else if(path.parse(inputPath).ext === ''){
+    let input = fs.readdirSync(filepath);
+    input.forEach((file) => {
+      let thisFilePath = filepath + '\\' + file;
+      if(path.parse(thisFilePath).ext === '.md'){
+        showLinks(thisFilePath).then((links)=> links.forEach((link) => {
+          if (process.argv[3] === '--validate'){
+          validate(link).then((validated)=> console.log(thisFilePath, validated.href, validated.statusText == 'OK' ? chalk.bold.green(validated.statusText) : chalk.bold.red(validated.statusText), validated.status, validated.text))
+          } else{
+          console.log(thisFilePath, link.href, link.text)
+              }
+        }))
+      } else {
+        let thisFilePath = inputPath + '\\' + file;
+        getFiles(thisFilePath)
+      }
+    })
+  }else{
+  console.log(chalk.bold.red('Por favor ingresa un directorio o archivo .md'))
   }
-})
-}}
+}
 
 getFiles(inputPath);  
 
 
-function showLinks(selectedFiles){
-
-  let links = [];
-  fs.readFile(selectedFiles, (err, data) => {
-  if (err) {console.log(err)}
-  document = data.toString();
-  
-  /*const walkTokens = (token) => {
-    if (token.type === 'link'){
-      console.log(token)
-    } else {''}
-  }
-   marked.use({walkTokens})*/
-  
-   const renderer = new marked.Renderer();
-   renderer.link = (href, title, text) => {
-     links.push({ href, title, text })
-   }
-  
-   marked.use({ renderer });
-  
-  marked(document);
-  
-  links.forEach((link) => {
-    console.log(chalk.magenta(selectedFiles), chalk.blue(link.href), chalk.gray(link.text))
-  })
-  });
-
-}

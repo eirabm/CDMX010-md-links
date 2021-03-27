@@ -31,6 +31,3 @@ Pensando en todos los usuarios de Pokemón Go que les gusta capturar a los perso
 
 ## Usabilidad
 
-![](/src/imagenes/1.png)
-![](/src/imagenes/2.png)
-![](/src/imagenes/3.png)

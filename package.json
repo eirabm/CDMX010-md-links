@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "dependencies": {
     "chalk": "^4.1.0",
-    "marked": "^2.0.1"
+    "marked": "^2.0.1",
+    "node-fetch": "^2.6.1"
   }
 }
