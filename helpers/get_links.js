@@ -1,20 +1,12 @@
 const fs = require('fs');
 const marked = require("marked");
-const chalk = require('chalk');
-
 
 const showLinks = (selectedFiles) => {
 
     const linksOb = fs.promises.readFile(selectedFiles)
     .then((data) => {
-      document = data.toString();
-      
-      /*const walkTokens = (token) => {
-        if (token.type === 'link'){
-          console.log(token)
-        } else {''}
-      }
-       marked.use({walkTokens})*/
+      let document = data.toString();
+
        let links = [];
   
        const renderer = new marked.Renderer();
@@ -28,7 +20,7 @@ const showLinks = (selectedFiles) => {
       marked(document);
 
        return links;
-      })
+      }).catch((err) => console.log(err))
 
       return linksOb;
     }
