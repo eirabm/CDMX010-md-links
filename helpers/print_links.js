@@ -2,21 +2,20 @@ const process = require('process');
 const chalk = require('chalk');
 const showLinks = require('./get_links.js');
 const validate = require('./validate.js');
+const stats = require('./stats.js');
+
 
 const printLinks = (path) => {
   showLinks(path).then((links)=> {
-      const numberOfLinks = links.length
-  links.forEach((link) => {
   if (process.argv[3] === '--validate'){
-      validate(link).then((validated)=> {
-          console.log(chalk.gray(path), chalk.underline(validated.href), validated.statusText == 'OK' ? chalk.bold.green(validated.statusText) : chalk.bold.red(validated.statusText), validated.status, validated.text)
-      })
+     return Promise.all(links.map(validate))
       .catch(() => 'error')
   } else {
-      console.log(path, link.href, link.text)
-  }})
-  console.log('Links:' +numberOfLinks);
- })
+      console.log(links)
+  }}).then((validatedArr)=> {
+      console.log(validatedArr)
+        console.log(stats(validatedArr))
+  })
  .catch(() => 'error')
 }
 

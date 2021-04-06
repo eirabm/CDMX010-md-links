@@ -1,21 +1,5 @@
 const fetch = require('node-fetch');
 
-/*function validate (linkToValidate){
-    https.get(linkToValidate, (res) => {
-  
-      const { statusCode } = res;
-  
-      if ( statusCode == 400){
-        console.log(chalk.red(`fail ${statusCode}`))
-      } else {
-        console.log(chalk.green(`ok ${statusCode}`))
-      }
-      
-    })
-    .on('error', ()=> {
-      console.log(chalk.red('fail'))
-    })
-  }*/
 
 const validate = (linkOb) => {
   const validation = fetch(linkOb.href)

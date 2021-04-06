@@ -18,8 +18,6 @@ module.exports = MDLinks = (filepath) => {
         MDLinks(thisFilePath)
       }
     })
-  }else{
-  console.log(chalk.bold.red('Por favor ingresa un directorio o archivo .md'))
   }
 }
 

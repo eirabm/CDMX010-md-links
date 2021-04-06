@@ -1,9 +1,9 @@
 /* eslint-disable no-undef */
-const mockObject = require('./helpers');
+const {mockObject, mockArr} = require('./helpers');
 const MDLinks = require('../');
 const validate = require('../helpers/validate.js');
 const showLinks = require('../helpers/get_links');
-
+const stats = require('../helpers/stats.js');
 
 describe('mdLinks', () => {
 
@@ -36,6 +36,13 @@ describe('mdLinks', () => {
       .catch((error) => {
         expect(error).toBe('error')
       })
+  });
+
+  it('should return an object with the number of total links and how many are broken', () => {
+    expect(stats(mockArr)).toEqual(expect.objectContaining({
+      "length" : 2,
+      "broken" : 1
+    }));
   });
 
 });
