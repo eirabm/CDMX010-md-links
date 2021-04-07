@@ -1,11 +1,14 @@
 {
-  "name": "md-links",
+  "name": "@eirabm/md-links",
   "version": "0.1.0",
   "description": "Read and analyze Markdown file to verify links and report statistics",
   "main": ".index.js",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/eirabm/CDMX010-md-links"
+    "url": "https://github.com/eirabm/CDMX010-md-links.git"
   },
   "keywords": [
     "Markdown",
