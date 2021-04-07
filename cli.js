@@ -1,6 +1,8 @@
+#!/usr/bin/env node
+
 const MDLinks = require('./index.js');
+const process = require('process');
 
-let inputPath = process.argv[2];
 
-MDLinks(inputPath);  
+MDLinks(process.argv[2]);  
 

@@ -10,7 +10,7 @@ const stats = (arr) => {
 
         if (linkOb.status == 200){
             stats['ok'] += 1
-        }else{
+        }else if(linkOb.status >= 400){
             stats['broken'] +=1
         }
         
