@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#! /usr/bin/env node
 
 const MDLinks = require('./index.js');
 const process = require('process');

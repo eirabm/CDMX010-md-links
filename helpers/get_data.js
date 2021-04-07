@@ -15,10 +15,10 @@ const getData = (path) => {
   }}).then((linksArr)=> {
 
     linksArr.forEach((link) =>{
-        const colorPath = chalk.gray(path)
-        const colorLink = chalk.magenta(link.href)
-        const colorText = chalk.blue(link.text)
-        const colorStatus = link.statusText == 'OK' ? chalk.bold.green(link.status + ' ' + link.statusText) : chalk.bold.red(link.status + ' ' + link.statusText)
+        const colorPath = chalk.hex('#6c88c4')(path)
+        const colorLink = chalk.hex('#cbaacb')(link.href)
+        const colorText = chalk.hex('ffffb5')(link.text)
+        const colorStatus = link.statusText == 'OK' ? chalk.hex('#00cdac').bold(link.status + ' ' + link.statusText) : chalk.hex('#c05780').bold(link.status + ' ' + link.statusText)
     
         console.log(colorPath, colorLink, link.status ? colorStatus : '', colorText)
     })
@@ -26,11 +26,12 @@ const getData = (path) => {
       if(process.argv.includes('--stats')){
         const arrStats = stats(linksArr)
 
-        const numberLinks = 'Cantidad de links: ' + chalk.bold(arrStats.length)
-        const broken = 'Cantidad de links rotos: ' + chalk.bold.red(arrStats.broken)
-        const ok = 'Cantidad de links funcionales: ' + chalk.bold.green(arrStats.ok)
+        const thisPath = 'En el path ' + chalk.hex('#6c88c4').underline(path) + ' existen:'
+        const numberLinks = 'Links: ' + chalk.bold(arrStats.length)
+        const broken = 'Links rotos: ' + chalk.hex('#c05780').bold(arrStats.broken)
+        const ok = 'Links funcionales: ' + chalk.hex('#00cdac').bold(arrStats.ok)
 
-        console.log(numberLinks, '\n', arrStats.broken === 0 && arrStats.ok === 0 ? '' : `${broken} \n ${ok}`)
+        console.log('\n', thisPath, '\n', numberLinks, '\n', arrStats.broken === 0 && arrStats.ok === 0 ? '' : `${broken} \n ${ok}`, '\n')
       }
   })
  .catch(() => 'error')
